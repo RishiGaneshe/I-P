@@ -1,0 +1,64 @@
+name: Deploy Backend (Production)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to server
+        run: |
+          set -e
+
+          SERVER_USER=${{ secrets.SERVER_USER }}
+          SERVER_IP=${{ secrets.SERVER_IP }}
+          ENV_FILE="${{ secrets.ENV_FILE }}"
+
+          APP_DIR="/home/$SERVER_USER/profile-app"
+          APP_NAME="profile-app"
+
+          echo "➡️ Creating app directory"
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "
+            mkdir -p $APP_DIR
+          "
+
+          echo "➡️ Uploading .env"
+          printf '%s' "$ENV_FILE" | ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cat > $APP_DIR/.env"
+
+          echo "➡️ Sync project"
+          rsync -az --delete \
+            --exclude '.git' \
+            --exclude 'node_modules' \
+            --exclude '.env' \
+            ./ $SERVER_USER@$SERVER_IP:$APP_DIR
+
+          echo "➡️ Install & restart"
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "
+            set -e
+            cd $APP_DIR
+
+            export NODE_ENV=production
+
+            if ! command -v pm2 >/dev/null 2>&1; then
+              npm install -g pm2
+            fi
+
+            npm install
+
+            pm2 delete $APP_NAME || true
+            pm2 start src/server.js --name $APP_NAME
+
+            pm2 save
+          "
