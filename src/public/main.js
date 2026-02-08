@@ -303,8 +303,6 @@ function renderTopSkills() {
       ${state.topSkills.map(skill => `
         <div class="top-skill-item" onclick="searchProjectsBySkillFromTop('${escapeHtml(skill.name)}')">
           <div class="top-skill-name">${escapeHtml(skill.name)}</div>
-          <div class="top-skill-count">${escapeHtml(skill.count || '0')}</div>
-          <div class="top-skill-label">project${skill.count != 1 ? 's' : ''}</div>
         </div>
       `).join('')}
     </div>
