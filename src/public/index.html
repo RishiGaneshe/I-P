@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developer Portfolio | Abhishek Ganeshe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #818cf8;
+    --secondary: #ec4899;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --error: #ef4444;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+    --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #fce7f3 100%);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  /* ========================================
+     NAVIGATION BAR
+  ======================================== */
+  .navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .nav-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .nav-brand {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-search {
+    flex: 1;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 48px 12px 44px;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    font-size: 15px;
+    font-family: inherit;
+    background: var(--bg-secondary);
+    transition: all 0.3s;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: none;
+  }
+
+  .search-clear:hover {
+    color: var(--text-primary);
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* ========================================
+     SEARCH RESULTS DROPDOWN
+  ======================================== */
+  .search-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+  }
+
+  .search-results.active {
+    display: block;
+  }
+
+  .search-result-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .search-result-item:hover {
+    background: var(--bg-secondary);
+  }
+
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .search-result-meta {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .search-result-skills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .search-mini-chip {
+    background: var(--bg-tertiary);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .search-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .search-loading {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--primary);
+  }
+
+  /* ========================================
+     HEADER SECTION
+  ======================================== */
+  .header {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    color: white;
+    padding: 80px 48px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    animation: float 20s infinite ease-in-out;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: float 25s infinite ease-in-out reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .header h1 {
+    font-size: 56px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+  }
+
+  .header .subtitle {
+    font-size: 22px;
+    font-weight: 500;
+    opacity: 0.95;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+
+  .header .education {
+    font-size: 16px;
+    opacity: 0.85;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    font-weight: 500;
+  }
+
+  .social-links {
+    margin-top: 32px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .social-links a {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s;
+    border: 1px solid rgba(255,255,255,0.3);
+    letter-spacing: 0.3px;
+  }
+
+  .social-links a:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  }
+
+  /* ========================================
+     CARD SECTIONS
+  ======================================== */
+  .card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    letter-spacing: -0.8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .card h2::before {
+    content: '';
+    width: 6px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 4px;
+  }
+
+  /* ========================================
+     SKILLS SECTION
+  ======================================== */
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .skills-filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .filter-btn:hover {
+    background: var(--primary-light);
+    color: white;
+  }
+
+  .filter-btn.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  .skill-chip {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s;
+    text-transform: capitalize;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-chip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  .skill-chip:hover::before {
+    left: 100%;
+  }
+
+  .skill-chip:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+  }
+
+  /* ========================================
+     PROJECTS SECTION
+  ======================================== */
+  .project-item {
+    padding: 32px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    transition: all 0.3s;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    position: relative;
+  }
+
+  .project-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(8px);
+  }
+
+  .project-item:hover::before {
+    opacity: 1;
+  }
+
+  .project-item h3 {
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+
+  .project-item p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .project-links a {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .project-links a:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ========================================
+     WORK EXPERIENCE
+  ======================================== */
+  .work-item {
+    padding: 32px;
+    border-left: 5px solid var(--primary);
+    margin-bottom: 24px;
+    background: var(--bg-secondary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    transition: all 0.3s;
+  }
+
+  .work-item:hover {
+    background: white;
+    border-left-width: 8px;
+    padding-left: 35px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .work-item h3 {
+    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .work-item .role {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 12px;
+    letter-spacing: -0.2px;
+  }
+
+  .work-item p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  /* ========================================
+     BUTTONS
+  ======================================== */
+  .btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 12px 12px 0 0;
+    transition: all 0.3s;
+    box-shadow: var(--shadow-md);
+    font-family: inherit;
+    letter-spacing: 0.3px;
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--border);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-small {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* ========================================
+     FORM INPUTS
+  ======================================== */
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-group label {
+    display: block;
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 15px;
+    letter-spacing: -0.1px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-family: inherit;
+    transition: all 0.3s;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.7;
+  }
+
+  .input-hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* ========================================
+     LOADING & STATUS
+  ======================================== */
+  .loading {
+    text-align: center;
+    padding: 80px 24px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .loading::after {
+    content: '...';
+    animation: dots 1.5s infinite;
+  }
+
+  @keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+  }
+
+  .error, .success {
+    padding: 20px 24px;
+    border-radius: var(--radius-md);
+    margin: 20px 0;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .error {
+    background: #fef2f2;
+    color: #991b1b;
+    border-left: 4px solid var(--error);
+  }
+
+  .success {
+    background: #f0fdf4;
+    color: #166534;
+    border-left: 4px solid var(--success);
+  }
+
+  .toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10000;
+    min-width: 320px;
+    max-width: 450px;
+    box-shadow: var(--shadow-xl);
+    border-radius: var(--radius-md);
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* ========================================
+     SEARCH EXPLORER PANEL
+  ======================================== */
+  .search-explorer {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+  }
+
+  .search-explorer h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    letter-spacing: -0.7px;
+  }
+
+  .search-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .search-tab {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-family: inherit;
+  }
+
+  .search-tab:hover {
+    color: var(--text-primary);
+  }
+
+  .search-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+
+  .search-content {
+    min-height: 200px;
+  }
+
+  .top-skills-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .top-skill-item {
+    background: linear-gradient(135deg, var(--bg-secondary), white);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .top-skill-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .top-skill-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    text-transform: capitalize;
+  }
+
+  .top-skill-count {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  .top-skill-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .skill-projects-list {
+    display: grid;
+    gap: 16px;
+  }
+
+  .skill-project-card {
+    background: var(--bg-secondary);
+    padding: 20px 24px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .skill-project-card:hover {
+    background: white;
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+  }
+
+  .skill-project-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .skill-project-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ========================================
+     PAGINATION
+  ======================================== */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .pagination button {
+    background: white;
+    border: 2px solid var(--border);
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .pagination button:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pagination-info {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* ========================================
+     RESPONSIVE
+  ======================================== */
+  @media (max-width: 768px) {
+    .header h1 {
+      font-size: 36px;
+    }
+
+    .header .subtitle {
+      font-size: 18px;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+
+    .container {
+      padding: 24px 16px;
+    }
+
+    .card {
+      padding: 28px 20px;
+    }
+
+    .card h2 {
+      font-size: 24px;
+    }
+
+    .nav-content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .nav-search {
+      max-width: 100%;
+    }
+  }
+
+  /* Edit Mode Styling */
+  .edit-header {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+
+  /* Code/Mono Font for Technical Content */
+  .mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="#" class="nav-brand" onclick="location.reload(); return false;">Portfolio</a>
+    
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        id="globalSearchInput" 
+        class="search-input" 
+        placeholder="Search projects, skills, experience..."
+        autocomplete="off"
+      >
+      <button class="search-clear" id="searchClear" onclick="clearGlobalSearch()">✕</button>
+      
+      <div class="search-results" id="globalSearchResults"></div>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn btn-small" onclick="toggleSearchExplorer()">🔬 Explore</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- Search Explorer Panel -->
+  <div class="search-explorer" id="searchExplorer" style="display:none;">
+    <h2>🔬 Search & Analytics</h2>
+    
+    <div class="search-tabs">
+      <button class="search-tab active" onclick="switchSearchTab('topSkills')">Top Skills</button>
+      <button class="search-tab" onclick="switchSearchTab('bySkill')">Projects by Skill</button>
+    </div>
+
+    <div class="search-content" id="searchContent">
+      <!-- Dynamic content loaded here -->
+    </div>
+  </div>
+
+  <div id="app"></div>
+</div>
+
+<script>
+// ============================================
+// CONFIGURATION
+// ============================================
+const CONFIG = {
+  API_BASE: "http://localhost:5000/api/profile",
+  SEARCH_API_BASE: "http://localhost:5000/api",
+  AUTH_ENABLED: false,
+  DEBOUNCE_DELAY: 300
+}
+
+// ============================================
+// STATE MANAGEMENT
+// ============================================
+let state = {
+  originalData: null,
+  isEditing: false,
+  isLoading: false,
+  error: null,
+  searchExplorerOpen: false,
+  currentSearchTab: 'topSkills',
+  topSkills: [],
+  searchResults: [],
+  skillProjectsData: null,
+  globalSearchData: null,
+  currentPage: 1
+}
+
+// Debounce utility
+let debounceTimer = null
+function debounce(func, delay) {
+  return function(...args) {
+    clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(() => func.apply(this, args), delay)
+  }
+}
+
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
+
+function escapeHtml(text) {
+  if (!text) return ''
+  const div = document.createElement('div')
+  div.textContent = text
+  return div.innerHTML
+}
+
+function deepEqual(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2)
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+function isValidUrl(url) {
+  if (!url) return true
+  try {
+    new URL(url)
+    return true
+  } catch {
+    return false
+  }
+}
+
+function getHeaders() {
+  const headers = {
+    'Content-Type': 'application/json'
+  }
+  
+  if (CONFIG.AUTH_ENABLED) {
+    const token = localStorage.getItem('authToken')
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+  }
+  
+  return headers
+}
+
+// ============================================
+// SEARCH API FUNCTIONS
+// ============================================
+
+async function fetchTopSkills() {
+  try {
+    const response = await fetch(`${CONFIG.SEARCH_API_BASE}/skills/top`, {
+      headers: getHeaders()
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
+    const json = await response.json()
+    
+    if (!json.success) {
+      throw new Error('Failed to fetch top skills')
+    }
+
+    state.topSkills = json.data
+    renderTopSkills()
+
+  } catch (error) {
+    console.error('Top skills error:', error)
+    document.getElementById('searchContent').innerHTML = `
+      <div class="error">Failed to load top skills: ${escapeHtml(error.message)}</div>
+    `
+  }
+}
+
+async function searchProjectsBySkill(skill, page = 1) {
+  try {
+    const limit = 10
+    const offset = (page - 1) * limit
+
+    const response = await fetch(
+      `${CONFIG.SEARCH_API_BASE}/projects?skill=${encodeURIComponent(skill)}&limit=${limit}&offset=${offset}`,
+      { headers: getHeaders() }
+    )
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
+    const json = await response.json()
+
+    if (!json.success) {
+      throw new Error('Failed to search projects')
+    }
+
+    state.skillProjectsData = json
+    state.currentPage = page
+    renderSkillProjects()
+
+  } catch (error) {
+    console.error('Skill search error:', error)
+    document.getElementById('searchContent').innerHTML = `
+      <div class="error">Failed to search projects: ${escapeHtml(error.message)}</div>
+    `
+  }
+}
+
+async function performGlobalSearch(query) {
+  if (!query || query.length < 2) {
+    document.getElementById('globalSearchResults').classList.remove('active')
+    return
+  }
+
+  try {
+    document.getElementById('globalSearchResults').innerHTML = `
+      <div class="search-loading">Searching...</div>
+    `
+    document.getElementById('globalSearchResults').classList.add('active')
+
+    const response = await fetch(
+      `${CONFIG.SEARCH_API_BASE}/search?q=${encodeURIComponent(query)}&limit=10`,
+      { headers: getHeaders() }
+    )
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
+    const json = await response.json()
+
+    if (!json.success) {
+      throw new Error('Search failed')
+    }
+
+    renderGlobalSearchResults(json.data)
+
+  } catch (error) {
+    console.error('Global search error:', error)
+    document.getElementById('globalSearchResults').innerHTML = `
+      <div class="error">Search failed: ${escapeHtml(error.message)}</div>
+    `
+  }
+}
+
+// ============================================
+// PROFILE API FUNCTIONS
+// ============================================
+
+async function fetchProfile() {
+  try {
+    state.isLoading = true
+    state.error = null
+    render()
+
+    const response = await fetch(CONFIG.API_BASE, {
+      headers: getHeaders()
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+    }
+
+    const json = await response.json()
+
+    if (!json.success || !json.data) {
+      throw new Error('Invalid response format')
+    }
+
+    state.originalData = json.data
+    state.isLoading = false
+    render()
+
+  } catch (error) {
+    console.error('Fetch error:', error)
+    state.error = `Failed to load profile: ${error.message}`
+    state.isLoading = false
+    render()
+  }
+}
+
+async function updateProfile(changes) {
+  try {
+    state.isLoading = true
+    render()
+
+    const response = await fetch(CONFIG.API_BASE, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(changes)
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+    }
+
+    const json = await response.json()
+
+    state.originalData = { ...state.originalData, ...changes }
+    state.isEditing = false
+    state.isLoading = false
+    state.error = null
+
+    render()
+    showMessage('Profile updated successfully!', 'success')
+
+    setTimeout(() => fetchProfile(), 1000)
+
+  } catch (error) {
+    console.error('Update error:', error)
+    state.error = `Failed to update profile: ${error.message}`
+    state.isLoading = false
+    render()
+  }
+}
+
+// ============================================
+// SEARCH UI FUNCTIONS
+// ============================================
+
+function toggleSearchExplorer() {
+  state.searchExplorerOpen = !state.searchExplorerOpen
+  const explorer = document.getElementById('searchExplorer')
+  
+  if (state.searchExplorerOpen) {
+    explorer.style.display = 'block'
+    if (state.currentSearchTab === 'topSkills' && state.topSkills.length === 0) {
+      fetchTopSkills()
+    }
+  } else {
+    explorer.style.display = 'none'
+  }
+}
+
+function switchSearchTab(tab) {
+  state.currentSearchTab = tab
+  
+  // Update tab styles
+  document.querySelectorAll('.search-tab').forEach(t => {
+    t.classList.remove('active')
+  })
+  event.target.classList.add('active')
+
+  // Load content based on tab
+  if (tab === 'topSkills') {
+    if (state.topSkills.length === 0) {
+      fetchTopSkills()
+    } else {
+      renderTopSkills()
+    }
+  } else if (tab === 'bySkill') {
+    renderSkillSearchForm()
+  }
+}
+
+function renderTopSkills() {
+  const content = document.getElementById('searchContent')
+  
+  if (state.topSkills.length === 0) {
+    content.innerHTML = '<div class="search-empty">No skills data available</div>'
+    return
+  }
+
+  content.innerHTML = `
+    <div class="top-skills-list">
+      ${state.topSkills.map(skill => `
+        <div class="top-skill-item" onclick="searchProjectsBySkillFromTop('${escapeHtml(skill.name)}')">
+          <div class="top-skill-name">${escapeHtml(skill.name)}</div>
+          <div class="top-skill-count">${skill.project_count}</div>
+          <div class="top-skill-label">projects</div>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+
+function searchProjectsBySkillFromTop(skillName) {
+  state.currentSearchTab = 'bySkill'
+  document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'))
+  document.querySelectorAll('.search-tab')[1].classList.add('active')
+  
+  renderSkillSearchForm(skillName)
+  searchProjectsBySkill(skillName)
+}
+
+function renderSkillSearchForm(prefillSkill = '') {
+  const content = document.getElementById('searchContent')
+  
+  content.innerHTML = `
+    <div style="margin-bottom: 24px;">
+      <input 
+        type="text" 
+        id="skillSearchInput" 
+        placeholder="Enter skill name (e.g., nodejs, react, python)..."
+        value="${escapeHtml(prefillSkill)}"
+        style="max-width: 500px;"
+      >
+      <button class="btn btn-small" onclick="handleSkillSearch()" style="margin-left: 12px;">
+        Search Projects
+      </button>
+    </div>
+    <div id="skillProjectsResults"></div>
+  `
+
+  // Auto-search if prefilled
+  if (prefillSkill) {
+    document.getElementById('skillProjectsResults').innerHTML = `
+      <div class="search-loading">Loading projects...</div>
+    `
+  }
+}
+
+function handleSkillSearch() {
+  const skill = document.getElementById('skillSearchInput').value.trim()
+  if (!skill) {
+    showMessage('Please enter a skill name', 'error')
+    return
+  }
+  searchProjectsBySkill(skill)
+}
+
+function renderSkillProjects() {
+  const resultsDiv = document.getElementById('skillProjectsResults')
+  const data = state.skillProjectsData
+
+  if (!data || !data.data || data.data.length === 0) {
+    resultsDiv.innerHTML = '<div class="search-empty">No projects found for this skill</div>'
+    return
+  }
+
+  const totalPages = Math.ceil(data.count / 10)
+
+  resultsDiv.innerHTML = `
+    <div style="margin-bottom: 16px; color: var(--text-secondary); font-weight: 600;">
+      Found ${data.count} project${data.count !== 1 ? 's' : ''}
+    </div>
+
+    <div class="skill-projects-list">
+      ${data.data.map(project => `
+        <div class="skill-project-card">
+          <div class="skill-project-title">${escapeHtml(project.title)}</div>
+          <div class="skill-project-desc">${escapeHtml(project.description || 'No description')}</div>
+          ${project.skills && project.skills.length > 0 ? `
+            <div class="search-result-skills" style="margin-top: 12px;">
+              ${project.skills.map(s => `<span class="search-mini-chip">${escapeHtml(s.name)}</span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `).join('')}
+    </div>
+
+    ${totalPages > 1 ? `
+      <div class="pagination">
+        <button onclick="searchProjectsBySkill(document.getElementById('skillSearchInput').value, ${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>
+          ← Previous
+        </button>
+        <span class="pagination-info">Page ${state.currentPage} of ${totalPages}</span>
+        <button onclick="searchProjectsBySkill(document.getElementById('skillSearchInput').value, ${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>
+          Next →
+        </button>
+      </div>
+    ` : ''}
+  `
+}
+
+function renderGlobalSearchResults(results) {
+  const container = document.getElementById('globalSearchResults')
+
+  if (!results || results.length === 0) {
+    container.innerHTML = '<div class="search-empty">No results found</div>'
+    return
+  }
+
+  container.innerHTML = results.map(item => `
+    <div class="search-result-item">
+      <div class="search-result-title">${escapeHtml(item.title)}</div>
+      <div class="search-result-meta">${escapeHtml(item.description || 'No description')}</div>
+      ${item.skills && item.skills.length > 0 ? `
+        <div class="search-result-skills">
+          ${item.skills.map(s => `<span class="search-mini-chip">${escapeHtml(s.name)}</span>`).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `).join('')
+}
+
+function clearGlobalSearch() {
+  document.getElementById('globalSearchInput').value = ''
+  document.getElementById('globalSearchResults').classList.remove('active')
+  document.getElementById('searchClear').style.display = 'none'
+}
+
+// ============================================
+// PROFILE UI FUNCTIONS
+// ============================================
+
+function showMessage(message, type = 'success') {
+  const messageDiv = document.createElement('div')
+  messageDiv.className = `toast ${type}`
+  messageDiv.textContent = message
+  
+  document.body.appendChild(messageDiv)
+  
+  setTimeout(() => {
+    messageDiv.remove()
+  }, 3000)
+}
+
+function enterEditMode() {
+  state.isEditing = true
+  render()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function cancelEdit() {
+  state.isEditing = false
+  state.error = null
+  render()
+}
+
+async function saveChanges() {
+  const formData = getFormData()
+  const validation = validateFormData(formData)
+  
+  if (!validation.valid) {
+    state.error = validation.error
+    render()
+    return
+  }
+
+  const changes = calculateChanges(formData)
+
+  if (Object.keys(changes).length === 0) {
+    showMessage('No changes detected', 'error')
+    return
+  }
+
+  await updateProfile(changes)
+}
+
+function getFormData() {
+  return {
+    name: document.getElementById('name')?.value.trim() || '',
+    email: document.getElementById('email')?.value.trim() || '',
+    education: document.getElementById('education')?.value.trim() || '',
+    github: document.getElementById('github')?.value.trim() || '',
+    linkedin: document.getElementById('linkedin')?.value.trim() || '',
+    portfolio: document.getElementById('portfolio')?.value.trim() || '',
+    skills: document.getElementById('skills')?.value
+      .split(',')
+      .map(s => s.trim().toLowerCase())
+      .filter(Boolean) || []
+  }
+}
+
+function validateFormData(data) {
+  if (!data.name) return { valid: false, error: 'Name is required' }
+  if (!data.email) return { valid: false, error: 'Email is required' }
+  if (!isValidEmail(data.email)) return { valid: false, error: 'Invalid email format' }
+  if (!isValidUrl(data.github)) return { valid: false, error: 'Invalid GitHub URL' }
+  if (!isValidUrl(data.linkedin)) return { valid: false, error: 'Invalid LinkedIn URL' }
+  if (!isValidUrl(data.portfolio)) return { valid: false, error: 'Invalid Portfolio URL' }
+  if (data.skills.length === 0) return { valid: false, error: 'At least one skill is required' }
+
+  return { valid: true }
+}
+
+function calculateChanges(formData) {
+  const changes = {}
+  const original = state.originalData
+
+  if (formData.name !== original.name) changes.name = formData.name
+  if (formData.email !== original.email) changes.email = formData.email
+  if (formData.education !== (original.education || '')) changes.education = formData.education
+
+  if (formData.github !== (original.github || '') ||
+      formData.linkedin !== (original.linkedin || '') ||
+      formData.portfolio !== (original.portfolio || '')) {
+    changes.links = {
+      github: formData.github,
+      linkedin: formData.linkedin,
+      portfolio: formData.portfolio
+    }
+  }
+
+  const originalSkills = original.skills.map(s => s.name.toLowerCase()).sort()
+  const newSkills = [...formData.skills].sort()
+
+  if (!deepEqual(originalSkills, newSkills)) {
+    changes.skills = formData.skills
+  }
+
+  return changes
+}
+
+// ============================================
+// RENDER FUNCTIONS
+// ============================================
+
+function render() {
+  const app = document.getElementById('app')
+
+  if (state.isLoading && !state.originalData) {
+    app.innerHTML = '<div class="loading">Loading profile</div>'
+    return
+  }
+
+  if (state.error && !state.originalData) {
+    app.innerHTML = `<div class="error">${escapeHtml(state.error)}</div>`
+    return
+  }
+
+  if (!state.originalData) {
+    app.innerHTML = '<div class="loading">No data available</div>'
+    return
+  }
+
+  if (state.isEditing) {
+    renderEditMode()
+  } else {
+    renderViewMode()
+  }
+}
+
+function renderViewMode() {
+  const data = state.originalData
+  const app = document.getElementById('app')
+
+  app.innerHTML = `
+    ${state.error ? `<div class="error">${escapeHtml(state.error)}</div>` : ''}
+
+    <div class="header">
+      <div class="header-content">
+        <h1>${escapeHtml(data.name)}</h1>
+        <p class="subtitle">${escapeHtml(data.email)}</p>
+        ${data.education ? `<p class="education">🎓 ${escapeHtml(data.education)}</p>` : ''}
+        
+        <div class="social-links">
+          ${data.github ? `<a href="${escapeHtml(data.github)}" target="_blank" rel="noopener">💻 GitHub</a>` : ''}
+          ${data.linkedin ? `<a href="${escapeHtml(data.linkedin)}" target="_blank" rel="noopener">💼 LinkedIn</a>` : ''}
+          ${data.portfolio ? `<a href="${escapeHtml(data.portfolio)}" target="_blank" rel="noopener">🌐 Portfolio</a>` : ''}
+        </div>
+
+        <div style="margin-top: 40px;">
+          <button class="btn" onclick="enterEditMode()" ${state.isLoading ? 'disabled' : ''}>
+            ✏️ Edit Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Skills & Expertise</h2>
+      <div class="skills-grid">
+        ${data.skills.map(skill => 
+          `<div class="skill-chip" onclick="searchProjectsBySkillFromTop('${escapeHtml(skill.name)}')" title="Click to find projects with this skill">
+            ${escapeHtml(skill.name)}
+          </div>`
+        ).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Featured Projects</h2>
+      ${data.projects.map(project => `
+        <div class="project-item">
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.description || '')}</p>
+          <div class="project-links">
+            ${project.links.map(link => 
+              `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`
+            ).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card">
+      <h2>Work Experience</h2>
+      ${data.workExperiences.map(work => `
+        <div class="work-item">
+          <h3>${escapeHtml(work.company)}</h3>
+          <p class="role">${escapeHtml(work.role)}</p>
+          <p>${escapeHtml(work.description || '')}</p>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+
+function renderEditMode() {
+  const data = state.originalData
+  const app = document.getElementById('app')
+
+  app.innerHTML = `
+    ${state.error ? `<div class="error">${escapeHtml(state.error)}</div>` : ''}
+
+    <div class="header edit-header">
+      <div class="header-content">
+        <h1>✏️ Edit Your Profile</h1>
+        <p class="subtitle">Update your information and showcase your work</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Personal Information</h2>
+
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" value="${escapeHtml(data.name)}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" value="${escapeHtml(data.email)}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="education">Education</label>
+        <textarea id="education">${escapeHtml(data.education || '')}</textarea>
+        <p class="input-hint">Include your degree, institution, and years</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Professional Links</h2>
+
+      <div class="form-group">
+        <label for="github">GitHub Profile</label>
+        <input type="url" id="github" value="${escapeHtml(data.github || '')}" placeholder="https://github.com/yourusername">
+      </div>
+
+      <div class="form-group">
+        <label for="linkedin">LinkedIn Profile</label>
+        <input type="url" id="linkedin" value="${escapeHtml(data.linkedin || '')}" placeholder="https://linkedin.com/in/yourusername">
+      </div>
+
+      <div class="form-group">
+        <label for="portfolio">Portfolio Website</label>
+        <input type="url" id="portfolio" value="${escapeHtml(data.portfolio || '')}" placeholder="https://yourportfolio.com">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Skills</h2>
+
+      <div class="form-group">
+        <label for="skills">Your Skills *</label>
+        <textarea id="skills" rows="3">${escapeHtml(data.skills.map(s => s.name).join(', '))}</textarea>
+        <p class="input-hint">Separate skills with commas. Example: JavaScript, Python, Docker, AWS, PostgreSQL</p>
+      </div>
+    </div>
+
+    <div class="card" style="background: var(--bg-secondary); border: 2px dashed var(--border);">
+      <button class="btn" onclick="saveChanges()" ${state.isLoading ? 'disabled' : ''}>
+        ${state.isLoading ? '⏳ Saving Changes...' : '💾 Save Changes'}
+      </button>
+      <button class="btn btn-secondary" onclick="cancelEdit()" ${state.isLoading ? 'disabled' : ''}>
+        ❌ Cancel
+      </button>
+    </div>
+  `
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
+
+// Global search with debounce
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('globalSearchInput')
+  const searchClear = document.getElementById('searchClear')
+
+  searchInput.addEventListener('input', debounce((e) => {
+    const query = e.target.value.trim()
+    
+    if (query.length > 0) {
+      searchClear.style.display = 'block'
+    } else {
+      searchClear.style.display = 'none'
+    }
+
+    if (query.length >= 2) {
+      performGlobalSearch(query)
+    } else {
+      document.getElementById('globalSearchResults').classList.remove('active')
+    }
+  }, CONFIG.DEBOUNCE_DELAY))
+
+  // Close search results when clicking outside
+  document.addEventListener('click', (e) => {
+    const searchContainer = document.querySelector('.nav-search')
+    if (searchContainer && !searchContainer.contains(e.target)) {
+      document.getElementById('globalSearchResults').classList.remove('active')
+    }
+  })
+})
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+window.onload = () => {
+  fetchProfile()
+}
+
+// Make functions globally available
+window.enterEditMode = enterEditMode
+window.cancelEdit = cancelEdit
+window.saveChanges = saveChanges
+window.toggleSearchExplorer = toggleSearchExplorer
+window.switchSearchTab = switchSearchTab
+window.handleSkillSearch = handleSkillSearch
+window.clearGlobalSearch = clearGlobalSearch
+window.searchProjectsBySkillFromTop = searchProjectsBySkillFromTop
+</script>
+
+</body>
+</html>
