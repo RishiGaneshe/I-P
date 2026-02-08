@@ -22,7 +22,8 @@ let state = {
   searchResults: [],
   skillProjectsData: null,
   globalSearchData: null,
-  currentPage: 1
+  currentPage: 1,
+  currentSkillQuery: ''
 }
 
 // Debounce utility
@@ -94,7 +95,7 @@ async function fetchTopSkills() {
 
     const json = await response.json()
     
-    if (!json.success) {
+    if (!json.success || !json.data) {
       throw new Error('Failed to fetch top skills')
     }
 
@@ -131,6 +132,7 @@ async function searchProjectsBySkill(skill, page = 1) {
 
     state.skillProjectsData = json
     state.currentPage = page
+    state.currentSkillQuery = skill
     renderSkillProjects()
 
   } catch (error) {
@@ -291,7 +293,7 @@ function switchSearchTab(tab) {
 function renderTopSkills() {
   const content = document.getElementById('searchContent')
   
-  if (state.topSkills.length === 0) {
+  if (!state.topSkills || state.topSkills.length === 0) {
     content.innerHTML = '<div class="search-empty">No skills data available</div>'
     return
   }
@@ -301,8 +303,8 @@ function renderTopSkills() {
       ${state.topSkills.map(skill => `
         <div class="top-skill-item" onclick="searchProjectsBySkillFromTop('${escapeHtml(skill.name)}')">
           <div class="top-skill-name">${escapeHtml(skill.name)}</div>
-          <div class="top-skill-count">${skill.project_count}</div>
-          <div class="top-skill-label">projects</div>
+          <div class="top-skill-count">${escapeHtml(skill.count || '0')}</div>
+          <div class="top-skill-label">project${skill.count != 1 ? 's' : ''}</div>
         </div>
       `).join('')}
     </div>
@@ -373,11 +375,15 @@ function renderSkillProjects() {
     <div class="skill-projects-list">
       ${data.data.map(project => `
         <div class="skill-project-card">
-          <div class="skill-project-title">${escapeHtml(project.title)}</div>
-          <div class="skill-project-desc">${escapeHtml(project.description || 'No description')}</div>
-          ${project.skills && project.skills.length > 0 ? `
-            <div class="search-result-skills" style="margin-top: 12px;">
-              ${project.skills.map(s => `<span class="search-mini-chip">${escapeHtml(s.name)}</span>`).join('')}
+          <div class="skill-project-title">${escapeHtml(project.title || 'Untitled Project')}</div>
+          <div class="skill-project-desc">${escapeHtml(project.description || 'No description available.')}</div>
+          ${project.links && project.links.length > 0 ? `
+            <div class="skill-project-links">
+              ${project.links.map(link => `
+                <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener" class="skill-project-link">
+                  ${escapeHtml(link.label)}
+                </a>
+              `).join('')}
             </div>
           ` : ''}
         </div>
@@ -386,11 +392,11 @@ function renderSkillProjects() {
 
     ${totalPages > 1 ? `
       <div class="pagination">
-        <button onclick="searchProjectsBySkill(document.getElementById('skillSearchInput').value, ${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>
+        <button onclick="searchProjectsBySkill('${escapeHtml(state.currentSkillQuery)}', ${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>
           ← Previous
         </button>
         <span class="pagination-info">Page ${state.currentPage} of ${totalPages}</span>
-        <button onclick="searchProjectsBySkill(document.getElementById('skillSearchInput').value, ${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>
+        <button onclick="searchProjectsBySkill('${escapeHtml(state.currentSkillQuery)}', ${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>
           Next →
         </button>
       </div>
@@ -408,11 +414,15 @@ function renderGlobalSearchResults(results) {
 
   container.innerHTML = results.map(item => `
     <div class="search-result-item">
-      <div class="search-result-title">${escapeHtml(item.title)}</div>
-      <div class="search-result-meta">${escapeHtml(item.description || 'No description')}</div>
-      ${item.skills && item.skills.length > 0 ? `
-        <div class="search-result-skills">
-          ${item.skills.map(s => `<span class="search-mini-chip">${escapeHtml(s.name)}</span>`).join('')}
+      <div class="search-result-title">${escapeHtml(item.title || 'Untitled')}</div>
+      <div class="search-result-meta">${escapeHtml(item.description || 'No description available.')}</div>
+      ${item.links && item.links.length > 0 ? `
+        <div class="search-result-links">
+          ${item.links.map(link => `
+            <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener" class="search-result-link">
+              ${escapeHtml(link.label)}
+            </a>
+          `).join('')}
         </div>
       ` : ''}
     </div>
@@ -566,8 +576,8 @@ function renderViewMode() {
 
     <div class="header">
       <div class="header-content">
-        <h1>${escapeHtml(data.name)}</h1>
-        <p class="subtitle">${escapeHtml(data.email)}</p>
+        <h1>${escapeHtml(data.name || 'Name not provided')}</h1>
+        <p class="subtitle">${escapeHtml(data.email || 'Email not provided')}</p>
         ${data.education ? `<p class="education">🎓 ${escapeHtml(data.education)}</p>` : ''}
         
         <div class="social-links">
@@ -584,42 +594,50 @@ function renderViewMode() {
       </div>
     </div>
 
-    <div class="card">
-      <h2>Skills & Expertise</h2>
-      <div class="skills-grid">
-        ${data.skills.map(skill => 
-          `<div class="skill-chip" onclick="searchProjectsBySkillFromTop('${escapeHtml(skill.name)}')" title="Click to find projects with this skill">
-            ${escapeHtml(skill.name)}
-          </div>`
-        ).join('')}
+    ${data.skills && data.skills.length > 0 ? `
+      <div class="card">
+        <h2>Skills & Expertise</h2>
+        <div class="skills-grid">
+          ${data.skills.map(skill => 
+            `<div class="skill-chip" onclick="searchProjectsBySkillFromTop('${escapeHtml(skill.name)}')" title="Click to find projects with this skill">
+              ${escapeHtml(skill.name)}
+            </div>`
+          ).join('')}
+        </div>
       </div>
-    </div>
+    ` : ''}
 
-    <div class="card">
-      <h2>Featured Projects</h2>
-      ${data.projects.map(project => `
-        <div class="project-item">
-          <h3>${escapeHtml(project.title)}</h3>
-          <p>${escapeHtml(project.description || '')}</p>
-          <div class="project-links">
-            ${project.links.map(link => 
-              `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`
-            ).join('')}
+    ${data.projects && data.projects.length > 0 ? `
+      <div class="card">
+        <h2>Featured Projects</h2>
+        ${data.projects.map(project => `
+          <div class="project-item">
+            <h3>${escapeHtml(project.title || 'Untitled Project')}</h3>
+            <p>${escapeHtml(project.description || 'No description available.')}</p>
+            ${project.links && project.links.length > 0 ? `
+              <div class="project-links">
+                ${project.links.map(link => 
+                  `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`
+                ).join('')}
+              </div>
+            ` : ''}
           </div>
-        </div>
-      `).join('')}
-    </div>
+        `).join('')}
+      </div>
+    ` : ''}
 
-    <div class="card">
-      <h2>Work Experience</h2>
-      ${data.workExperiences.map(work => `
-        <div class="work-item">
-          <h3>${escapeHtml(work.company)}</h3>
-          <p class="role">${escapeHtml(work.role)}</p>
-          <p>${escapeHtml(work.description || '')}</p>
-        </div>
-      `).join('')}
-    </div>
+    ${data.workExperiences && data.workExperiences.length > 0 ? `
+      <div class="card">
+        <h2>Work Experience</h2>
+        ${data.workExperiences.map(work => `
+          <div class="work-item">
+            <h3>${escapeHtml(work.company || 'Company not specified')}</h3>
+            <p class="role">${escapeHtml(work.role || 'Role not specified')}</p>
+            <p>${escapeHtml(work.description || 'No description available.')}</p>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
   `
 }
 
@@ -642,12 +660,12 @@ function renderEditMode() {
 
       <div class="form-group">
         <label for="name">Full Name *</label>
-        <input type="text" id="name" value="${escapeHtml(data.name)}" required>
+        <input type="text" id="name" value="${escapeHtml(data.name || '')}" required>
       </div>
 
       <div class="form-group">
         <label for="email">Email Address *</label>
-        <input type="email" id="email" value="${escapeHtml(data.email)}" required>
+        <input type="email" id="email" value="${escapeHtml(data.email || '')}" required>
       </div>
 
       <div class="form-group">
@@ -681,7 +699,7 @@ function renderEditMode() {
 
       <div class="form-group">
         <label for="skills">Your Skills *</label>
-        <textarea id="skills" rows="3">${escapeHtml(data.skills.map(s => s.name).join(', '))}</textarea>
+        <textarea id="skills" rows="3">${escapeHtml(data.skills && data.skills.length > 0 ? data.skills.map(s => s.name).join(', ') : '')}</textarea>
         <p class="input-hint">Separate skills with commas. Example: JavaScript, Python, Docker, AWS, PostgreSQL</p>
       </div>
     </div>

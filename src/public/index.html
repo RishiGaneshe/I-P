@@ -2,13 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" 
-      content="default-src 'self'; 
-               script-src 'self' https://ip.codewithrishi.fun 'unsafe-inline'; 
-               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-               font-src 'self' https://fonts.gstatic.com; 
-               connect-src 'self' https://ip.codewithrishi.fun; 
-               img-src 'self' data: https:;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Developer Portfolio | Abhishek Ganeshe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +17,7 @@
     --accent: #f59e0b;
     --success: #10b981;
     --error: #ef4444;
+    --warning: #f59e0b;
     --text-primary: #1e293b;
     --text-secondary: #475569;
     --text-muted: #94a3b8;
@@ -176,7 +170,6 @@
   .search-result-item {
     padding: 16px 20px;
     border-bottom: 1px solid var(--border);
-    cursor: pointer;
     transition: all 0.2s;
   }
 
@@ -192,28 +185,37 @@
     font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .search-result-meta {
     font-size: 14px;
     color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.5;
   }
 
-  .search-result-skills {
+  .search-result-links {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-wrap: wrap;
-    margin-top: 8px;
   }
 
-  .search-mini-chip {
-    background: var(--bg-tertiary);
-    padding: 4px 10px;
+  .search-result-link {
+    background: var(--primary);
+    color: white;
+    padding: 4px 12px;
     border-radius: 12px;
     font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 500;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .search-result-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
   }
 
   .search-empty {
@@ -226,6 +228,7 @@
     padding: 40px 20px;
     text-align: center;
     color: var(--primary);
+    font-weight: 600;
   }
 
   /* ========================================
@@ -366,44 +369,6 @@
   /* ========================================
      SKILLS SECTION
   ======================================== */
-  .skills-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .skills-filter {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    background: var(--bg-tertiary);
-    color: var(--text-secondary);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.2s;
-    font-family: inherit;
-  }
-
-  .filter-btn:hover {
-    background: var(--primary-light);
-    color: white;
-  }
-
-  .filter-btn.active {
-    background: var(--primary);
-    color: white;
-  }
-
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -830,7 +795,7 @@
 
   .skill-project-card {
     background: var(--bg-secondary);
-    padding: 20px 24px;
+    padding: 24px;
     border-radius: var(--radius-md);
     border: 2px solid var(--border);
     transition: all 0.3s;
@@ -853,6 +818,30 @@
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .skill-project-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .skill-project-link {
+    background: var(--primary);
+    color: white;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .skill-project-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
   }
 
   /* ========================================
@@ -936,12 +925,6 @@
   .edit-header {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   }
-
-  /* Code/Mono Font for Technical Content */
-  .mono {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 14px;
-  }
 </style>
 </head>
 <body>
@@ -989,7 +972,6 @@
   <div id="app"></div>
 </div>
 
-<!-- <script src="https://ip.codewithrishi.fun/main.js"></script> -->
 <script src="./main.js"></script>
 
 </body>
